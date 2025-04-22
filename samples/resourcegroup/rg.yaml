@@ -1,0 +1,9 @@
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: rg-cluster-aso
+  namespace: default
+  annotations:
+    serviceoperator.azure.com/credential-from: aso-credentials
+spec:
+  location: westus3
