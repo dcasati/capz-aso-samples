@@ -1,0 +1,36 @@
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: rg-cluster-aso
+  namespace: default
+  annotations:
+    serviceoperator.azure.com/credential-from: aso-credentials
+spec:
+  location: westus3
+---
+apiVersion: containerservice.azure.com/v1api20231102preview
+kind: ManagedCluster
+metadata:
+  name: sample-managedcluster-20231102preview
+  namespace: default
+  annotations:
+    serviceoperator.azure.com/credential-from: aso-credentials
+spec:
+  location: westus3
+  sku:
+    name: Base
+    tier: Standard
+  metricsProfile:
+    costAnalysis:
+      enabled: true
+  owner:
+    name: rg-cluster-aso
+  dnsPrefix: aso
+  agentPoolProfiles:
+    - name: pool1
+      count: 1
+      vmSize: Standard_DS2_v2
+      osType: Linux
+      mode: System
+  identity:
+    type: SystemAssigned
